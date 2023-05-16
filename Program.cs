@@ -1,6 +1,5 @@
 ﻿using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
-
 class Program
 {
     static string speechKeyPrimary = "033452695a2e4036b2c1a11975eb9985";
@@ -34,7 +33,8 @@ class Program
 
     async static Task Main(string[] args)
     {
-        try{
+        try
+        {
             string finalResult = "";
             var speechConfig = SpeechConfig.FromSubscription(speechKeyPrimary, speechRegion);
             speechConfig.SpeechRecognitionLanguage = "en-US";
@@ -57,8 +57,8 @@ class Program
                 finalResult = OutputSpeechRecognitionResult(e.Result);
                 Console.WriteLine(finalResult);
             };
-
             await speechRecognizer.StartContinuousRecognitionAsync();
+
             // while (!stopRecognition)     //Once it recognise work  "thank you", this will stop microphone
             // {
             //     await Task.Delay(1000);
@@ -80,7 +80,7 @@ class Program
             OutputSpeechRecognitionResult(speechRecognitionResult);
         }
         catch(Exception ex){
-            Console.WriteLine("Exception Occured : ", ex.Message);
+            Console.WriteLine("Exception Occured ", ex.Message);
         }
     }
 }
