@@ -7,28 +7,33 @@ class Program
     static string speechRegion = "eastus";
     public static string speechToText = "";
     static string OutputSpeechRecognitionResult(SpeechRecognitionResult speechRecognitionResult)
-    {   
-        if (speechRecognitionResult.Reason == ResultReason.RecognizedSpeech)
+    {   try
         {
-            Console.WriteLine($"Writing...");
-        }
-        else if (speechRecognitionResult.Reason == ResultReason.NoMatch)
-        {
-            Console.WriteLine($"Speech could not be recognized!");
-        }
-        else if (speechRecognitionResult.Reason == ResultReason.Canceled)
-        {
-            var cancellation = CancellationDetails.FromResult(speechRecognitionResult);
-            Console.WriteLine($"CANCELED: Reason={cancellation.Reason}");
-            if (cancellation.Reason == CancellationReason.Error)
+            if (speechRecognitionResult.Reason == ResultReason.RecognizedSpeech)
             {
-                Console.WriteLine($"CANCELED: ErrorCode={cancellation.ErrorCode}");
-                Console.WriteLine($"CANCELED: ErrorDetails={cancellation.ErrorDetails}");
-                Console.WriteLine($"CANCELED: Did you set the speech resource key and region values?");
+                Console.WriteLine($"Writing...");
             }
+            else if (speechRecognitionResult.Reason == ResultReason.NoMatch)
+            {
+                Console.WriteLine($"Speech could not be recognized!");
+            }
+            else if (speechRecognitionResult.Reason == ResultReason.Canceled)
+            {
+                var cancellation = CancellationDetails.FromResult(speechRecognitionResult);
+                Console.WriteLine($"CANCELED: Reason={cancellation.Reason}");
+                if (cancellation.Reason == CancellationReason.Error)
+                {
+                    Console.WriteLine($"CANCELED: ErrorCode={cancellation.ErrorCode}");
+                    Console.WriteLine($"CANCELED: ErrorDetails={cancellation.ErrorDetails}");
+                    Console.WriteLine($"CANCELED: Did you set the speech resource key and region values?");
+                }
+            }
+            speechToText += speechRecognitionResult.Text;
+            return speechToText;
         }
-        speechToText += speechRecognitionResult.Text;
-        return speechToText;
+        catch(Exception ex){
+            return ex.Message;
+        }
     }
 
     async static Task Main(string[] args)
